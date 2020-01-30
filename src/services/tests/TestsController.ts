@@ -1,12 +1,17 @@
-import { getTests } from './providers/TestsDataProvider';
+import { getAllTests,
+    getTestById, 
+    postTestToDatabase
+} from './providers/TestsDataProvider';
+import { ITests } from './providers/types';
 
-export const getTestsByName = async (q: string) => {
-    if (q.length < 3) {
-        return {
-            type: 'PostsCollection',
-            features: []
-        };
-    }
+export const getTests = async (q: string) => {
+    return await getAllTests(q);
+}
 
-    return await getTests(q);
+export const getTest = async (id: string) => {
+    return await getTestById(id);
+}
+
+export const postTest = async (payload: ITests): Promise<any> => {
+    return await postTestToDatabase(payload);
 }

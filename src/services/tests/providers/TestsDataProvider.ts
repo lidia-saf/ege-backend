@@ -1,11 +1,37 @@
-import request from 'request-promise';
-import dotenv from 'dotenv';
+import pool from './db';
+import { ITests } from './types';
 
-dotenv.config();
+export const getAllTests = (query: string) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT * FROM tests ORDER BY id ASC;`,
+        (q_err, q_res) => {
+            if (q_err) {
+                reject(q_err);
+            }
+            return resolve(q_res.rows);
+        })
+    });
+}
 
-export const getTests = async (query: string) => {
-    const key = process.env.PLACEHOLDER_KEY;
-    const url = `https://jsonplaceholder.typicode.com/posts`;
-    const response = await request(url);
-    return JSON.parse(response);
+export const getTestById = (id: string) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT * FROM tests WHERE id = ${id};`,
+        (q_err, q_res) => {
+            if (q_err) {
+                reject(q_err);
+            }
+            return resolve(q_res.rows);
+        })
+    })
+}
+
+export const postTestToDatabase = (payload: ITests) => {
+    const { title, type } = payload;
+    return new Promise((resolve, reject) => {
+        pool.query(`INSERT INTO tests(title, type) VALUES('${title.replace("\"", "")}', '${type.replace("\"", "")}');`, 
+        (q_err, q_res) => {
+            if (q_err) return reject(q_err);
+            return resolve(q_res.rows);
+        })
+    })
 }

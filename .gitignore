@@ -28,3 +28,6 @@ benchmarks/graphs
 
 #env files
 .env
+
+# compiled code
+dist
