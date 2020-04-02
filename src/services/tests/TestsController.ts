@@ -1,6 +1,7 @@
 import { getAllTests,
     getTestById, 
-    postTestToDatabase
+    postTestToDatabase,
+    putTestToDatabase
 } from './providers/TestsDataProvider';
 import { ITests } from './providers/types';
 
@@ -14,4 +15,8 @@ export const getTest = async (id: string) => {
 
 export const postTest = async (payload: ITests): Promise<any> => {
     return await postTestToDatabase(payload);
+}
+
+export const putTest = async (payload: Partial<ITests>, id: string) => {
+    return await putTestToDatabase(payload, id);
 }
