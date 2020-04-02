@@ -3,12 +3,14 @@ import { EsHttpRequest } from './EsHttpRequest';
 let index = 'tests';
 let type = '_doc';
 
-export class ESProvider {
-    public static postDocToES(document: JSON) {
+class ESProvider {
+    public postDocToES(document: JSON) {
         return EsHttpRequest.handleRequest('POST', `${index}/${type}`, document);
     }
 
-    public static getAllDataFromES() {
+    public getAllDataFromES() {
         return EsHttpRequest.handleRequest('GET', `${index}/_search`, {});
     }
 }
+
+export default new ESProvider;

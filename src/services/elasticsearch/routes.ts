@@ -1,18 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import {  ESProvider } from './ESProvider';
-import { AWSCredentials } from './AwsCredentials';
+import ESProvider from './ESProvider';
 
 export default [
-    {
-        path: '/escred',
-        method: 'get',
-        handler: [
-            async (req: Request, res: Response, next: NextFunction) => {
-                const result = AWSCredentials.getCredentials();
-                res.status(200).json(result);
-            }
-        ]
-    },
     {
         path: '/tests/v1/post',
         method: 'post',
