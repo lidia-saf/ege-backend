@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { getTests, getTest, postTest } from './TestsController';
+import { getTests, getTest, postTest, putTest } from './TestsController';
 
 export default [
     {
@@ -28,6 +28,16 @@ export default [
         handler: [
             async (req: Request, res: Response, next: NextFunction) => {
                 const result = await postTest(req.body);
+                res.status(200).send(result);
+            }
+        ]
+    },
+    {
+        path: '/api/v1/put/tests/:id',
+        method: 'put',
+        handler: [
+            async (req: Request, res: Response, next: NextFunction) => {
+                const result = await putTest(req.body, req.params.id);
                 res.status(200).send(result);
             }
         ]
