@@ -12,11 +12,11 @@ interface IResponseData {
     body?: string
 }
 
-const makeRequest = (requestType: IRequestType, path: string, body: Object, endpoint: Endpoint) => {
+const makeRequest = (requestType: IRequestType, path: string, body: Object, endpoint: Endpoint, query: string) => {
     let request = new AWS.HttpRequest(endpoint, region);
 
     request.method = requestType;
-    request.path += path;
+    request.path += `${path}${query.length !== 0 ? `?=${query}` : ''}`;
     request.body = JSON.stringify(body);
     request.headers['host'] = domain;
     request.headers['Content-Type'] = 'application/json';
@@ -42,7 +42,7 @@ const sendRequest = (request: HttpRequest) => {
                  if (body) {
                      data.body = JSON.parse(body);
                  }
-                 resolve(data);
+                 resolve(body);
              });
              }, function (error: Error) {
                  reject(error);
@@ -52,9 +52,9 @@ const sendRequest = (request: HttpRequest) => {
 }
 
 export class EsHttpRequest {
-    public static handleRequest(requestType: IRequestType, path: string, body: Object) {
+    public static handleRequest(requestType: IRequestType, path: string, body: Object, query: string) {
         let endpoint = new AWS.Endpoint(domain);
-        let request = makeRequest(requestType, path, body, endpoint);
+        let request = makeRequest(requestType, path, body, endpoint, query);
 
         let credentials = awsCredentials.getCredentials();
         // @ts-ignore

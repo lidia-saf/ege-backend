@@ -7,6 +7,7 @@
     "start": "tsc-watch --onSuccess \"node ./dist/server.js\""
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.6.1",
     "@types/compression": "^1.0.1",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",
@@ -17,13 +18,18 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "elasticsearch": "^16.7.1",
     "express": "^4.17.1",
+    "http-aws-es": "^6.0.0",
     "pg": "^7.17.1",
+    "query-string": "^6.11.1",
     "request": "^2.88.0",
     "tsc-watch": "^4.1.0",
     "typescript": "^3.7.5"
   },
   "devDependencies": {
-    "@types/aws-sdk": "^2.7.0"
+    "@types/aws-sdk": "^2.7.0",
+    "@types/elasticsearch": "^5.0.36",
+    "@types/http-aws-es": "^6.0.0"
   }
 }
