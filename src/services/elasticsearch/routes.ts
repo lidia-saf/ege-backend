@@ -3,6 +3,16 @@ import ESProvider from './ESProvider';
 
 export default [
     {
+        path: '/ping',
+        method: 'get',
+        handler: [
+            (req: Request, res: Response, next: NextFunction) => {
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).end("Pong");
+            }
+        ]
+    },
+    {
         path: '/api/tests/v1/post',
         method: 'post',
         handler: [
