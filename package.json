@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc-watch --onSuccess \"node ./dist/server.js\"",
-    "startProduction": "tsc && node ./dist/server.js"
+    "startProduction": "npm install && tsc && node ./dist/server.js"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",

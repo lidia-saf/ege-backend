@@ -1,5 +1,6 @@
 #!/bin/bash
-sudo pm2 stop ege-backend
+pm2 stop ege-backend
+pm2 delete ege-backend
 
 # isExistApp=`sudo pgrep pm2`
 # if [[ -n  $isExistApp ]]; then
