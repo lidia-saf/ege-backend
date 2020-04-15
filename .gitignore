@@ -17,7 +17,7 @@ Desktop.ini
 package-lock.json
 *.log
 *.gz
-
+node_modules
 
 # Coveralls
 coverage
