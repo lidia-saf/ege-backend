@@ -4,7 +4,7 @@ import awsHttpClient from 'http-aws-es';
 import AwsCredentials from '../../config/AwsCredentials';
 
 class EsClientRequest {
-    public sendRequestThroughClient(query: any) {
+    public async sendRequestThroughClient(query: any) {
         AWS.config.region = 'eu-central-1';
         let client = new elasticsearch.Client({
             host: 'search-egedb-phvxanuibqbyc7r7itdlz2tkdi.eu-central-1.es.amazonaws.com',
@@ -12,7 +12,7 @@ class EsClientRequest {
             // @ts-ignore
             amazonES: {
                 region: 'eu-central-1',
-                credentials: AwsCredentials.getCredentials()
+                credentials: await AwsCredentials.getCredentials()
             }
         });
         

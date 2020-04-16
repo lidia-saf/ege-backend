@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -44,13 +53,15 @@ const sendRequest = (request) => {
 };
 class EsHttpRequest {
     static handleRequest(requestType, path, body, query) {
-        let endpoint = new aws_sdk_1.default.Endpoint(domain);
-        let request = makeRequest(requestType, path, body, endpoint, query);
-        let credentials = AwsCredentials_1.default.getCredentials();
-        // @ts-ignore
-        let signer = new aws_sdk_1.default.Signers.V4(request, 'es');
-        signer.addAuthorization(credentials, new Date());
-        return sendRequest(request);
+        return __awaiter(this, void 0, void 0, function* () {
+            let endpoint = new aws_sdk_1.default.Endpoint(domain);
+            let request = makeRequest(requestType, path, body, endpoint, query);
+            let credentials = yield AwsCredentials_1.default.getCredentials();
+            // @ts-ignore
+            let signer = new aws_sdk_1.default.Signers.V4(request, 'es');
+            signer.addAuthorization(credentials, new Date());
+            return sendRequest(request);
+        });
     }
 }
 exports.EsHttpRequest = EsHttpRequest;

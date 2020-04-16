@@ -54,11 +54,11 @@ const sendRequest = (request: HttpRequest) => {
 }
 
 export class EsHttpRequest {
-    public static handleRequest(requestType: IRequestType, path: string, body: Object, query: string) {
+    public static async handleRequest(requestType: IRequestType, path: string, body: Object, query: string) {
         let endpoint = new AWS.Endpoint(domain);
         let request = makeRequest(requestType, path, body, endpoint, query);
 
-        let credentials = awsCredentials.getCredentials();
+        let credentials = await awsCredentials.getCredentials();
         // @ts-ignore
         let signer = new AWS.Signers.V4(request, 'es');
         signer.addAuthorization(credentials, new Date());

@@ -9,14 +9,16 @@ let index = 'tests';
 let type = '_doc';
 
 class ESProvider {
-    public postDocToES(document: JSON) {
-        return EsHttpRequest.handleRequest('POST', `${index}/${type}`, document, '');
+    public async postDocToES(document: JSON) {
+        const result = await EsHttpRequest.handleRequest('POST', `${index}/${type}`, document, '');
+        return result;
     }
 
-    public getAllDataFromES(query: any) {
+    public async getAllDataFromES(query: any) {
 
         if (!Object.keys(query).length) {
-            return EsHttpRequest.handleRequest('GET', `${index}/_search`, {}, '');
+            const result = await EsHttpRequest.handleRequest('GET', `${index}/_search`, {}, '');
+            return result;
         }
 
         let esQuery = {};
@@ -45,10 +47,12 @@ class ESProvider {
                 }
             };
         }
-       return EsClientRequest.sendRequestThroughClient(esQuery);
+
+        const result = await EsClientRequest.sendRequestThroughClient(esQuery);
+        return result;
     }
 
-    public getQuestionsDataByTestId(id: string) {
+    public async getQuestionsDataByTestId(id: string) {
         const query = {
             index: "tests",
             body: {
@@ -60,11 +64,11 @@ class ESProvider {
                 ]
             }
         }
-
-        return EsClientRequest.sendRequestThroughClient(query);
+        const result = await EsClientRequest.sendRequestThroughClient(query);
+        return result;
     }
 
-    public getMaxTestValue() {
+    public async getMaxTestValue() {
         AWS.config.region = 'eu-central-1';
         let client = new elasticsearch.Client({
             host: 'search-egedb-phvxanuibqbyc7r7itdlz2tkdi.eu-central-1.es.amazonaws.com',
@@ -72,7 +76,7 @@ class ESProvider {
             // @ts-ignore
             amazonES: {
                 region: 'eu-central-1',
-                credentials: AwsCredentials.getCredentials()
+                credentials: await AwsCredentials.getCredentials()
             }
         });
         
