@@ -14,16 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 class AWSCredentials {
+    constructor() {
+        this.credentials = new aws_sdk_1.default.EC2MetadataCredentials({
+            httpOptions: { timeout: 5000 }
+        });
+    }
     getCredentials() {
         return __awaiter(this, void 0, void 0, function* () {
-            // chain.resolve((err, cred) => {
-            //     if (!err) {
-            //         console.log('success: fully got credentials')
-            //         AWS.config.credentials = cred;
-            //     }
-            //     console.error(`failure to get credentials: ${err}`);
-            // });
-            return aws_sdk_1.default.config.credentials;
+            return this.credentials;
         });
     }
 }
