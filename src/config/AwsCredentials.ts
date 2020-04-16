@@ -1,16 +1,19 @@
 import AWS from 'aws-sdk';
 
 class AWSCredentials {
-    public readonly credentials: AWS.EC2MetadataCredentials;
-
-    constructor() {
-        this.credentials = new AWS.EC2MetadataCredentials({
-            httpOptions: {timeout: 5000}
-        })
-    }
 
     public async getCredentials() {
-        return this.credentials;
+        return new Promise(function (resolve, reject) {
+            AWS.config.getCredentials(async function(err) {
+                if (err) {
+                    console.log('Error getting credentials', err);
+                    return reject(err);
+                } else {
+                    console.log('Successfully got credentials');
+                    resolve(AWS.config.credentials);
+                }
+            });
+        });
     }
 }
 
