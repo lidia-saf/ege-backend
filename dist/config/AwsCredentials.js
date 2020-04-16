@@ -20,13 +20,20 @@ const chain = new aws_sdk_1.default.CredentialProviderChain([
 class AWSCredentials {
     getCredentials() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield chain.resolve((err, cred) => {
-                if (!err) {
-                    console.log('success: fully got credentials');
-                    aws_sdk_1.default.config.credentials = cred;
+            yield aws_sdk_1.default.config.getCredentials(function (err) {
+                if (err)
+                    console.log(err.stack);
+                else {
+                    console.log("successfully got the credentials");
                 }
-                console.error(`failure to get credentials: ${err}`);
             });
+            // chain.resolve((err, cred) => {
+            //     if (!err) {
+            //         console.log('success: fully got credentials')
+            //         AWS.config.credentials = cred;
+            //     }
+            //     console.error(`failure to get credentials: ${err}`);
+            // });
             return aws_sdk_1.default.config.credentials;
         });
     }
