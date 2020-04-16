@@ -42,9 +42,11 @@ const sendRequest = (request: HttpRequest) => {
                  if (body) {
                      data.body = JSON.parse(body);
                  }
+                 console.log(`request through HTTP success: ${body}`)
                  resolve(body);
              });
              }, function (error: Error) {
+                 console.log(`request through HTTP err: ${error}`);
                  reject(error);
              }
          )

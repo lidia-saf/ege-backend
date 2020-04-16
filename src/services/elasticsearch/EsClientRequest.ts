@@ -21,6 +21,7 @@ class EsClientRequest {
                 console.log(resp);
                 resolve(resp);
             }, function(err: Error) {
+                console.log(`error getting data: ${err}`);
                 reject(err);
             });
         })

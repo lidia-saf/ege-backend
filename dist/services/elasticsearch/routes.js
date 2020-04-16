@@ -42,6 +42,7 @@ exports.default = [
         handler: [
             (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
                 let result = yield ESProvider_1.default.getAllDataFromES(req.query);
+                console.log(`result from get: ${result}`);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).end(JSON.stringify(result));
             })

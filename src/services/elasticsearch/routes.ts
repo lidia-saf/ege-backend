@@ -30,6 +30,7 @@ export default [
         handler: [
             async (req: Request, res: Response, next: NextFunction) => {
                 let result = await ESProvider.getAllDataFromES(req.query);
+                console.log(`result from get: ${result}`);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).end(JSON.stringify(result));
             }

@@ -33,9 +33,11 @@ const sendRequest = (request) => {
                 if (body) {
                     data.body = JSON.parse(body);
                 }
+                console.log(`request through HTTP success: ${body}`);
                 resolve(body);
             });
         }, function (error) {
+            console.log(`request through HTTP err: ${error}`);
             reject(error);
         });
     });
