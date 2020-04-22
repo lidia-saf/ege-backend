@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import ESProvider from './ESProvider';
+import authorizationHandler from '../../config/AuthorizationHandler';
 
 export default [
     {
@@ -17,9 +18,22 @@ export default [
         method: 'post',
         handler: [
             async (req: Request, res: Response, next: NextFunction) => {
+                authorizationHandler.verifyJwt(req, res);
                 let document = req.body;
                 let result = await ESProvider.postDocToES(document);
                 res.setHeader('Content-Type', 'application/json');
+                res.status(200).end(JSON.stringify(result));
+            }
+        ]
+    },
+    {
+        path: '/api/tests/v1/delete',
+        method: 'delete',
+        handler: [
+            async (req: Request, res: Response, next: NextFunction) => {
+                let document = req.body;
+                let result = await ESProvider.deleteDocFromES();
+                res.setHeader('Content-Type','application/json');
                 res.status(200).end(JSON.stringify(result));
             }
         ]

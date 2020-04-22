@@ -1,0 +1,1 @@
+{"version":3,"file":"MediaUploadProvider.js","sourceRoot":"","sources":["../../../src/services/mediauploader/MediaUploadProvider.ts"],"names":[],"mappings":";;;;;;;;;;;AAEA,MAAM,mBAAmB;IACR,YAAY,CAAC,QAAc;;YAEpC,OAAO,CAAC,GAAG,CAAC,QAAQ,CAAC,CAAC;YACtB,OAAO,QAAQ,CAAC;QACpB,CAAC;KAAA;CACJ;AAED,kBAAe,IAAI,mBAAmB,EAAE,CAAC"}

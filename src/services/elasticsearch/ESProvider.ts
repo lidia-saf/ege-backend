@@ -14,6 +14,32 @@ class ESProvider {
         return result;
     }
 
+    public async deleteDocFromES() {
+        let query = {
+            index: 'tests',
+            body: {
+               query: {
+                   match: { testId: 3 }
+               }
+            }
+        }
+        
+        AWS.config.region = 'eu-central-1';
+        let client = new elasticsearch.Client({
+            host: 'search-egedb-phvxanuibqbyc7r7itdlz2tkdi.eu-central-1.es.amazonaws.com',
+            connectionClass: awsHttpClient,
+            // @ts-ignore
+            amazonES: {
+                region: 'eu-central-1',
+                credentials: await AwsCredentials.getCredentials()
+            }
+        });
+        
+        client.deleteByQuery(query, function (_: Error, response: any) {
+            console.log(response);
+        });
+    }
+
     public async getAllDataFromES(query: any) {
 
         if (!Object.keys(query).length) {
@@ -26,6 +52,8 @@ class ESProvider {
             esQuery = {
                 index: 'tests',
                 body: {
+                    "from": 0,
+                    "size": 50,
                     "query": {
                         "match_all": {}
                     },

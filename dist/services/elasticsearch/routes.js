@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ESProvider_1 = __importDefault(require("./ESProvider"));
+const AuthorizationHandler_1 = __importDefault(require("../../config/AuthorizationHandler"));
 exports.default = [
     {
         path: '/ping',
@@ -29,8 +30,21 @@ exports.default = [
         method: 'post',
         handler: [
             (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+                AuthorizationHandler_1.default.verifyJwt(req, res);
                 let document = req.body;
                 let result = yield ESProvider_1.default.postDocToES(document);
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).end(JSON.stringify(result));
+            })
+        ]
+    },
+    {
+        path: '/api/tests/v1/delete',
+        method: 'delete',
+        handler: [
+            (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+                let document = req.body;
+                let result = yield ESProvider_1.default.deleteDocFromES();
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).end(JSON.stringify(result));
             })

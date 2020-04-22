@@ -4,6 +4,7 @@ import { applyMiddleware, applyRoutes } from './utils';
 import routes from './services';
 import errorHandlers from './middleware/errorHandlers';
 import middleware from './middleware';
+import mediaUploadRoute from './services/mediauploader/routes';
 
 process.on('uncaughtException', e => {
     console.log(e);
@@ -18,6 +19,7 @@ process.on('unhandledRejection', e => {
 const router = express();
 applyMiddleware(middleware, router);
 applyRoutes(routes, router);
+router.use('/api/media/v1/post', mediaUploadRoute);
 applyMiddleware(errorHandlers, router)
 
 const { PORT = 3001 } = process.env;
