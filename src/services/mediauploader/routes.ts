@@ -10,7 +10,9 @@ const upload = multer({dest: '/tmp/uploads/'});
 const router = express.Router();
 
 router.post('/', upload.single('file'), async function (req, res, next) {
-    authorizationHandler.verifyJwt(req, res);
+    if (!authorizationHandler.verifyJwt(req, res)) {
+        return;
+    };
 
     // @ts-ignore
     let credentials: AWS.Credentials = await AwsCredentials.getCredentials();

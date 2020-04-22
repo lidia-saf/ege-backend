@@ -31,12 +31,17 @@ class AuthorizationHandler {
             if (this.jwk !== null) {
                 const pem = jwk_to_pem_1.default(this.jwk.keys[1]);
                 jsonwebtoken_1.default.verify(parsedCookies.accessToken, pem, { algorithms: ['RS256'] }, (err, decodedToken) => {
+                    if (err) {
+                        res.status(500).end(JSON.stringify({ error: err }));
+                        return false;
+                    }
                     if (!decodedToken ||
                         !decodedToken['cognito:groups'] ||
                         decodedToken['cognito:groups'].indexOf('AdminGroup') === -1) {
                         res.status(500).end(JSON.stringify({ error: 'Access denied: no group' }));
-                        throw new Error('Access denied: no group');
+                        return false;
                     }
+                    return true;
                 });
             }
         });
@@ -44,7 +49,7 @@ class AuthorizationHandler {
     parseCookies(req, res) {
         if (!req.cookies.UserAuth || !req.cookies.hasOwnProperty('UserAuth')) {
             res.status(500).end(JSON.stringify({ error: 'Access denied: no cookies' }));
-            throw new Error('Access denied: no cookies');
+            return false;
         }
         return JSON.parse(req.cookies.UserAuth);
     }

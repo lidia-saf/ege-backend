@@ -18,7 +18,9 @@ export default [
         method: 'post',
         handler: [
             async (req: Request, res: Response, next: NextFunction) => {
-                authorizationHandler.verifyJwt(req, res);
+                if (!authorizationHandler.verifyJwt(req, res)) {
+                    return;
+                };
                 let document = req.body;
                 let result = await ESProvider.postDocToES(document);
                 res.setHeader('Content-Type', 'application/json');

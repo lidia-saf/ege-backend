@@ -30,7 +30,10 @@ exports.default = [
         method: 'post',
         handler: [
             (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-                AuthorizationHandler_1.default.verifyJwt(req, res);
+                if (!AuthorizationHandler_1.default.verifyJwt(req, res)) {
+                    return;
+                }
+                ;
                 let document = req.body;
                 let result = yield ESProvider_1.default.postDocToES(document);
                 res.setHeader('Content-Type', 'application/json');

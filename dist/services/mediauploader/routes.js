@@ -22,7 +22,10 @@ const upload = multer_1.default({ dest: '/tmp/uploads/' });
 const router = express_1.default.Router();
 router.post('/', upload.single('file'), function (req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        AuthorizationHandler_1.default.verifyJwt(req, res);
+        if (!AuthorizationHandler_1.default.verifyJwt(req, res)) {
+            return;
+        }
+        ;
         // @ts-ignore
         let credentials = yield AwsCredentials_1.default.getCredentials();
         aws_sdk_1.default.config.update({
