@@ -1,4 +1,4 @@
 import elasticSearchRoutes from './elasticsearch/routes';
-import mediaUploaderRoutes from './mediauploader/routes';
+import testDescRoutes from './testdescription/routes';
 
-export default [...elasticSearchRoutes];
+export default [...elasticSearchRoutes, ...testDescRoutes];

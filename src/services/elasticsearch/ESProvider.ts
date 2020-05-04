@@ -84,6 +84,7 @@ class ESProvider {
         const query = {
             index: "tests",
             body: {
+                "size": 50,
                 "query": {
                     "term" : { "testId" : id }
                 },
