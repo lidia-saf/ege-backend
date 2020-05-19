@@ -27,31 +27,6 @@ class ESProvider {
             return result;
         });
     }
-    deleteDocFromES() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let query = {
-                index: 'tests',
-                body: {
-                    query: {
-                        match: { testId: 3 }
-                    }
-                }
-            };
-            aws_sdk_1.default.config.region = 'eu-central-1';
-            let client = new elasticsearch_1.default.Client({
-                host: 'search-egedb-phvxanuibqbyc7r7itdlz2tkdi.eu-central-1.es.amazonaws.com',
-                connectionClass: http_aws_es_1.default,
-                // @ts-ignore
-                amazonES: {
-                    region: 'eu-central-1',
-                    credentials: yield AwsCredentials_1.default.getCredentials()
-                }
-            });
-            client.deleteByQuery(query, function (_, response) {
-                console.log(response);
-            });
-        });
-    }
     getAllDataFromES(query) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!Object.keys(query).length) {
@@ -64,7 +39,7 @@ class ESProvider {
                     index: 'tests',
                     body: {
                         "from": 0,
-                        "size": 50,
+                        "size": 5000,
                         "query": {
                             "match_all": {}
                         },
@@ -77,6 +52,7 @@ class ESProvider {
             else {
                 esQuery = {
                     index: 'tests',
+                    size: 5000,
                     body: {
                         "query": {
                             "match_all": {}
@@ -106,6 +82,43 @@ class ESProvider {
                 }
             };
             const result = yield EsClientRequest_1.default.sendRequestThroughClient(query);
+            return result;
+        });
+    }
+    getQuestionById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let params = {
+                type: '_doc',
+                index: 'tests',
+                id
+            };
+            let result = yield EsClientRequest_1.default.get(params);
+            return result;
+        });
+    }
+    putQuestionById(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let sourceData = {
+                doc: data
+            };
+            let params = {
+                id,
+                index: 'tests',
+                type: '_doc',
+                body: sourceData
+            };
+            const result = yield EsClientRequest_1.default.update(params, sourceData);
+            return result;
+        });
+    }
+    deleteById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let params = {
+                id,
+                index: 'tests',
+                type: '_doc'
+            };
+            const result = yield EsClientRequest_1.default.delete(params);
             return result;
         });
     }

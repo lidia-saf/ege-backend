@@ -14,32 +14,6 @@ class ESProvider {
         return result;
     }
 
-    public async deleteDocFromES() {
-        let query = {
-            index: 'tests',
-            body: {
-               query: {
-                   match: { testId: 3 }
-               }
-            }
-        }
-        
-        AWS.config.region = 'eu-central-1';
-        let client = new elasticsearch.Client({
-            host: 'search-egedb-phvxanuibqbyc7r7itdlz2tkdi.eu-central-1.es.amazonaws.com',
-            connectionClass: awsHttpClient,
-            // @ts-ignore
-            amazonES: {
-                region: 'eu-central-1',
-                credentials: await AwsCredentials.getCredentials()
-            }
-        });
-        
-        client.deleteByQuery(query, function (_: Error, response: any) {
-            console.log(response);
-        });
-    }
-
     public async getAllDataFromES(query: any) {
 
         if (!Object.keys(query).length) {
@@ -53,7 +27,7 @@ class ESProvider {
                 index: 'tests',
                 body: {
                     "from": 0,
-                    "size": 50,
+                    "size": 5000,
                     "query": {
                         "match_all": {}
                     },
@@ -65,6 +39,7 @@ class ESProvider {
         } else {
             esQuery = {
                 index: 'tests',
+                size: 5000,
                 body: {
                     "query": {
                         "match_all": {}
@@ -94,6 +69,40 @@ class ESProvider {
             }
         }
         const result = await EsClientRequest.sendRequestThroughClient(query);
+        return result;
+    }
+
+    public async getQuestionById (id: string) {
+        let params = {
+            type: '_doc',
+            index: 'tests',
+            id
+        }
+        let result = await EsClientRequest.get(params);
+        return result;
+    }
+
+    public async putQuestionById (id: string, data: JSON) {
+        let sourceData = {
+            doc: data
+        }
+        let params = {
+            id,
+            index: 'tests',
+            type: '_doc',
+            body: sourceData
+        }
+        const result = await EsClientRequest.update(params, sourceData);
+        return result;
+    }
+
+    public async deleteById(id: string) {
+        let params = {
+            id,
+            index: 'tests',
+            type: '_doc'
+        }
+        const result = await EsClientRequest.delete(params);
         return result;
     }
 

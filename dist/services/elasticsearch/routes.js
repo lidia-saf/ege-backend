@@ -42,12 +42,15 @@ exports.default = [
         ]
     },
     {
-        path: '/api/tests/v1/delete',
-        method: 'delete',
+        path: '/api/tests/v1/put/question/:id',
+        method: 'put',
         handler: [
             (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-                let document = req.body;
-                let result = yield ESProvider_1.default.deleteDocFromES();
+                if (!AuthorizationHandler_1.default.verifyJwt(req, res)) {
+                    return;
+                }
+                ;
+                let result = yield ESProvider_1.default.putQuestionById(req.params.id, req.body);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).end(JSON.stringify(result));
             })
@@ -66,11 +69,38 @@ exports.default = [
         ]
     },
     {
+        path: '/api/tests/v1/get/question/:id',
+        method: 'get',
+        handler: [
+            (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+                let result = yield ESProvider_1.default.getQuestionById(req.params.id);
+                console.log(`result from get: ${result}`);
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).end(JSON.stringify(result));
+            })
+        ]
+    },
+    {
         path: '/api/tests/v1/get/tests/:id',
         method: 'get',
         handler: [
             (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
                 let result = yield ESProvider_1.default.getQuestionsDataByTestId(req.params.id);
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).end(JSON.stringify(result));
+            })
+        ]
+    },
+    {
+        path: '/api/tests/v1/delete/:id',
+        method: 'delete',
+        handler: [
+            (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+                if (!AuthorizationHandler_1.default.verifyJwt(req, res)) {
+                    return;
+                }
+                ;
+                let result = yield ESProvider_1.default.deleteById(req.params.id);
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).end(JSON.stringify(result));
             })
