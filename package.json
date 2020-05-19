@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "build": "tsc",
-    "startProduction": "npm install && nodemon ./dist/server.js"
+    "startProduction": "npm install && node ./dist/server.js"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
